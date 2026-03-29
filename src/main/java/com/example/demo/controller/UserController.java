@@ -16,31 +16,33 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // GET all users
     @GetMapping
     public List<User> getUsers() {
         return userService.getUsers();
     }
 
+    // CREATE user
     @PostMapping
     public User createUser(@Valid @RequestBody UserDTO userDTO) {
+
         User user = new User();
-        user.setId(System.currentTimeMillis()); // temp id
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
 
-        userService.addUser(user);
-
-        return user;
+        return userService.addUser(user); // ✅ return saved user
     }
 
+    // GET user by id
     @GetMapping("/{id}")
     public User findUser(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
+    // DELETE user
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Long id) {
-        userService.deleteUserById(id);
+        userService.deleteUser(id); // ✅ fixed
         return "USER DELETED SUCCESSFULLY";
     }
 }
