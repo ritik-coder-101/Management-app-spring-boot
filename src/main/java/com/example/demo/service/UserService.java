@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -16,15 +17,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addUser(User user) {
-        userRepository.save(user);
+    public User addUser(User user) {
+        return userRepository.save(user);
     }
 
     public User getUserById(Long id) {
-        return userRepository.findUserById(id);
+        return userRepository.findById(id).orElse(null);
     }
 
-    public void deleteUserById(Long id) {
-        userRepository.deleteUserById(id);
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }
