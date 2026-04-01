@@ -1,17 +1,12 @@
-name: Maven Compile Check
+name: Java CI Pipeline
 
 on:
   push:
     branches:
       - main
-      - develop   # optional (add your working branches)
-
-  pull_request:
-    types: [closed]   # only when PR is closed (merged or not)
 
 jobs:
   build:
-    if: github.event.pull_request.merged == true || github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
@@ -27,4 +22,17 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
 
-      - run: mvn compile
+      - name: Build & Test
+        run: mvn -B clean install
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-app
+          path: target/*.jar
+
+      - name: Check Code Style
+        run: mvn checkstyle:check
+
+      - name: Simulate Deployment
+        run: echo "Deploying application..."
