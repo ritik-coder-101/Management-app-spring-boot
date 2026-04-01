@@ -2,10 +2,16 @@ name: Maven Compile Check
 
 on:
   push:
+    branches:
+      - main
+      - develop   # optional (add your working branches)
+
   pull_request:
+    types: [closed]   # only when PR is closed (merged or not)
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true || github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
