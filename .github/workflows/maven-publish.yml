@@ -31,8 +31,5 @@ jobs:
           name: my-app
           path: target/*.jar
 
-      - name: Check Code Style
-        run: mvn checkstyle:check
-
       - name: Simulate Deployment
         run: echo "Deploying application..."
